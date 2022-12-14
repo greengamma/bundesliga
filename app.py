@@ -15,11 +15,16 @@ team_list = ['Bayern', 'Dortmund', 'Schalke', 'Wolfsburg', 'Frankfurt', 'Hertha'
 team_list.sort()
 
 home_team = st.sidebar.selectbox('Pick your HOME team:', team_list)
+
 away_team = st.sidebar.selectbox('Pick your AWAY team:', team_list)
 
 with st.spinner(text="Loading data..."):
     time.sleep(1)
-st.success('Loaded!')
+    if home_team == away_team:
+        st.error('Select 2 different teams!')
+        st.stop()
+    else:
+        st.success('Loaded!')
 
 # Create dict of available teams
 team_dict = {'Bayern': 40,
@@ -171,6 +176,38 @@ def calculate_probability(complete_df):
 # Call the function
 home_win_prob, away_win_prob, draw_prob, number_of_matches = calculate_probability(complete_df)
 
-st.write(f'🏆 The win probability for {home_team} is: {home_win_prob}%...')
-st.write(f'🤝 The draw probability for {home_team} is: {draw_prob}%...')
-st.write(f'😢 The loss probability for {home_team} is: {away_win_prob}%, based on {number_of_matches} matches!')
+# Create columns to show the results
+
+st.write(f'🏆 The win probabilities are: for {home_team} is: {home_win_prob}%...')
+st.write(f'🤝 The draw probability is: {home_team} is: {draw_prob}%...')
+st.write(f'😢 The loss probabilities are: for {home_team} is: {away_win_prob}%, based on {number_of_matches} matches!')
+
+
+c1, c2, c3 = st.columns(3)
+c4, c5, c6 = st.columns(3) #just to highlight these are different cols
+
+with st.container():
+    c1.write('Probabilities')
+    c2.image(f'logos/{home_team.lower()}.png', width=128)
+    c3.image(f'logos/{away_team.lower()}.png', width=128)
+
+with st.container():
+    c4.write(f'🏆 Win')
+    c5.write(f'{home_win_prob}%')
+    c6.write(f'{100 - home_win_prob}%')
+
+with st.container():
+    c4.write(f"🤝 Draw")
+    c5.write(f'{draw_prob}%')
+    c6.write(f'{draw_prob}%')
+
+with st.container():
+    c4.write(f'😢 Loss')
+    c5.write(f'{away_win_prob}%')
+    c6.write(f'{100 - away_win_prob}%')
+
+
+
+
+
+# Show team logo
