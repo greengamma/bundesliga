@@ -4,6 +4,6 @@
 
 
 ### This app downloads win, draw and loss probabilities of Bundesliga teams using the following free API:
-### https://api.openligadb.de/getmatchdata/bl1/2020/8
+#### https://api.openligadb.de/getmatchdata/bl1/2020/8
 
 ![](app.png)
