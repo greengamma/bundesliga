@@ -8,10 +8,13 @@ st.title('⚽️ Bundesliga Probability App')
 
 
 # Get user input
-team_list = ['Bayern', 'Dortmund', 'Schalke', 'Wolfsburg', 'Frankfurt', 'Hertha',
-                                                          'Freiburg', 'Mainz', 'Köln', 'Union Berlin', 'Leverkusen', 'Bielefeld',
-                                                          'Bremen', 'Gladbach', 'Hoffenheim', 'Stuttgart', 'Leipzig', 'Bochum',
-                                                          'Augsburg']
+team_list = ['FC Bayern München', 'Borussia Dortmund', 'FC Schalke 04', 'VfL Wolfsburg', 'Eintracht Frankfurt', 'Hertha BSC Berlin',
+                                                          'SC Freiburg', '1. FSV Mainz 05', '1. FC Köln', '1. FC Union Berlin',
+                                                          'Bayer 04 Leverkusen', 'Arminia Bielefeld', 'Werder Bremen',
+                                                          'Borussia Mönchengladbach', 'TSG 1899 Hoffenheim', 'VfB Stuttgart',
+                                                          'RB Leipzig', 'VfL Bochum', 'FC Augsburg', 'SpVgg Greuther Fürth',
+                                                          'SC Paderborn 07', '1. FC Nürnberg', 'Fortuna Düsseldorf', 'Hannover 96',
+                                                          'Hamburger SV', 'FC Ingolstadt 04', 'SV Darmstadt 98', '']
 team_list.sort()
 
 home_team = st.sidebar.selectbox('Pick your HOME team:', team_list)
@@ -27,25 +30,33 @@ with st.spinner(text="Loading data..."):
         st.success('Loaded!')
 
 # Create dict of available teams
-team_dict = {'Bayern': 40,
-             'Dortmund': 7,
-             'Schalke': 9,
-             'Wolfsburg': 131,
-             'Frankfurt': 91,
-             'Hertha': 54,
-             'Freiburg': 112,
-             'Mainz': 81,
-             'Köln': 65,
-             'Union Berlin': 80,
-             'Leverkusen': 6,
-             'Bielefeld': 83,
-             'Bremen': 134,
-             'Gladbach': 87,
-             'Hoffenheim': 175,
-             'Stuttgart': 16,
-             'Leipzig': 1635,
-             'Bochum': 129,
-             'Augsburg': 95,
+team_dict = {'FC Bayern München': 40,
+             'Borussia Dortmund': 7,
+             'FC Schalke 04': 9,
+             'VfL Wolfsburg': 131,
+             'Eintracht Frankfurt': 91,
+             'Hertha BSC Berlin': 54,
+             'SC Freiburg': 112,
+             '1. FSV Mainz 05': 81,
+             '1. FC Köln': 65,
+             '1. FC Union Berlin': 80,
+             'Bayer 04 Leverkusen': 6,
+             'Arminia Bielefeld': 83,
+             'Werder Bremen': 134,
+             'Borussia Mönchengladbach': 87,
+             'TSG 1899 Hoffenheim': 175,
+             'VfB Stuttgart': 16,
+             'RB Leipzig': 1635,
+             'VfL Bochum': 129,
+             'FC Augsburg': 95,
+             'SpVgg Greuther Fürth': 115,
+             'SC Paderborn 07': 31,
+             '1. FC Nürnberg': 79,
+             'Fortuna Düsseldorf': 185,
+             'Hannover 96': 55,
+             'Hamburger SV': 100,
+             'FC Ingolstadt 04': 171,
+             'SV Darmstadt 98': 118
              }
 
 # Check if team exists
@@ -178,36 +189,36 @@ home_win_prob, away_win_prob, draw_prob, number_of_matches = calculate_probabili
 
 # Create columns to show the results
 
-st.write(f'🏆 The win probabilities are: for {home_team} is: {home_win_prob}%...')
-st.write(f'🤝 The draw probability is: {home_team} is: {draw_prob}%...')
-st.write(f'😢 The loss probabilities are: for {home_team} is: {away_win_prob}%, based on {number_of_matches} matches!')
+st.write(f'The probabilities are computed based on {number_of_matches} matches!')
 
-
-c1, c2, c3 = st.columns(3)
-c4, c5, c6 = st.columns(3) #just to highlight these are different cols
+col1, col2, col3 = st.columns([5, 3, 3])
 
 with st.container():
-    c1.write('Probabilities')
-    c2.image(f'logos/{home_team.lower()}.png', width=128)
-    c3.image(f'logos/{away_team.lower()}.png', width=128)
+    col1, col2, col3 = st.columns([5, 3, 3])
+    with col2:
+        st.image(f'logos/{home_team.lower()}.png', width=128)
+
+    with col3:
+        st.image(f'logos/{away_team.lower()}.png', width=128)
+
 
 with st.container():
-    c4.write(f'🏆 Win')
-    c5.write(f'{home_win_prob}%')
-    c6.write(f'{100 - home_win_prob}%')
-
-with st.container():
-    c4.write(f"🤝 Draw")
-    c5.write(f'{draw_prob}%')
-    c6.write(f'{draw_prob}%')
-
-with st.container():
-    c4.write(f'😢 Loss')
-    c5.write(f'{away_win_prob}%')
-    c6.write(f'{100 - away_win_prob}%')
+    new_title = '<p style="font-family:sans-serif; color:Black; font-size: 18px;"><b>Probabilities:</b> </p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([7, 4, 3])
+    with col1:
+        st.write(f'🏆 Won')
+        st.write(f"🤝 Draw")
+        st.write(f'😢 Lost')
 
 
+    with col2:
+        st.write(f'{home_win_prob}%')
+        st.write(f'{draw_prob}%')
+        st.write(f'{away_win_prob}%')
 
 
-
-# Show team logo
+    with col3:
+        st.write(f'{away_win_prob}%')
+        st.write(f'{draw_prob}%')
+        st.write(f'{home_win_prob}%')
